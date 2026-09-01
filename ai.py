@@ -18,8 +18,20 @@ Please add GEMINI_API_KEY to your .env file.
 Demo response: I can still show how the app works. For a real answer, I would analyze your request, route it to the best AI agent, and generate specific recommendations."""
 
 
+def _get_setting(name, default=""):
+    try:
+        import streamlit as st
+
+        value = st.secrets.get(name, "")
+        if value:
+            return str(value).strip()
+    except Exception:
+        pass
+    return os.getenv(name, default).strip()
+
+
 def _model_candidates():
-    configured_model = os.getenv("GEMINI_MODEL", "").strip()
+    configured_model = _get_setting("GEMINI_MODEL")
     models = [
         configured_model,
         "gemini-3.6-flash",
@@ -39,7 +51,7 @@ def _clear_dead_local_proxy():
 
 def ask_ai(prompt, system_prompt=None):
     """Ask Gemini for a response, with a safe demo fallback."""
-    api_key = os.getenv("GEMINI_API_KEY", "").strip()
+    api_key = _get_setting("GEMINI_API_KEY")
     if not api_key:
         return DEMO_RESPONSE
 
