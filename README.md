@@ -1,4 +1,4 @@
-# Ardhanarishwar - All-in-One AI Solution
+# Career Advisory Platform
 
 A simple Streamlit project for career guidance, resume analysis, interview preparation, skill-gap analysis, learning plans, recruitment support, candidate screening, and business guidance.
 
