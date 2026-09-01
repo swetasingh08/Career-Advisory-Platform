@@ -29,6 +29,14 @@ def _model_candidates():
     return [model for index, model in enumerate(models) if model and model not in models[:index]]
 
 
+def _clear_dead_local_proxy():
+    proxy_names = ["HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "http_proxy", "https_proxy", "all_proxy"]
+    for name in proxy_names:
+        value = os.getenv(name, "")
+        if "127.0.0.1:9" in value or "localhost:9" in value:
+            os.environ.pop(name, None)
+
+
 def ask_ai(prompt, system_prompt=None):
     """Ask Gemini for a response, with a safe demo fallback."""
     api_key = os.getenv("GEMINI_API_KEY", "").strip()
@@ -38,6 +46,7 @@ def ask_ai(prompt, system_prompt=None):
     try:
         import google.generativeai as genai
 
+        _clear_dead_local_proxy()
         genai.configure(api_key=api_key)
         errors = []
         for model_name in _model_candidates():

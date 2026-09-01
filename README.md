@@ -61,6 +61,8 @@ If the key is missing, the app will show a clear message and use a small demo fa
 streamlit run app.py
 ```
 
+The app is configured to run on [http://localhost:8502/](http://localhost:8502/) so it can run alongside another Streamlit app on port 8501.
+
 ## Tests
 
 ```bash
